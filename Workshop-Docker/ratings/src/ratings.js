@@ -16,7 +16,7 @@ var http = require('http')
 var dispatcher = require('httpdispatcher')
 console.log('ENV ->', process.env);
 
-var port = 9080
+var port = 8080
 
 var userAddedRatings = [] // used to demonstrate POST functionality
 
