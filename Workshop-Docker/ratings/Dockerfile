@@ -12,8 +12,7 @@ COPY src/package.json /opt/microservices/
 COPY src/ratings.js /opt/microservices/
 WORKDIR /opt/microservices
 RUN npm install
-
-EXPOSE 9080
-CMD ["node", "/opt/microservices/ratings.js", "9080"]
+RUN npm install node
+CMD ["npm","start"]
 
 USER 1000
