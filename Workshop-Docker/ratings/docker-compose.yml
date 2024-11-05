@@ -1,39 +1,23 @@
 version: "3.5"
+ 
 services:
   ratings:
-    container_name: ratings
-    image: ratings:v2
     build: .
+    container_name: ratings
     ports:
-      - "9080:9080"
+      - "8080:8080"
     environment:
-      - DATABASE_URL=postgresql://ratings:ratings@db:5432/ratingsdb
-      - SERVICE_VERSION=v2
-      - DB_TYPE=mysql
-      - MYSQL_DB_HOST=db
-      - MYSQL_DB_PORT=5432
-      - MYSQL_DB_USER=ratings
-      - MYSQL_DB_PASSWORD=ratings
-    depends_on:
-      - db
-    networks:
-      - rating_network
-
-  db:
-    container_name: db
-    image: mysql:5.7
-    restart: always
+      SERVICE_VERSION: v2
+      MONGO_DB_URL: mongodb://mongodb:27017/ratings
+      MONGO_DB_USERNAME: ratings
+      MONGO_DB_PASSWORD: CHANGEME
+  mongodb:
+    container_name: mongodb
+    image: bitnami/mongodb:5.0.6-debian-10-r46
+    volumes:
+      - "./databases:/docker-entrypoint-initdb.d"
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: ratingsdb
-      MYSQL_USER: ratings
-      MYSQL_PASSWORD: ratings
-    ports:
-      - "5432:5432"
-    networks:
-        - rating_network
-
-networks:
-  rating_network:
-    driver: bridge
-    name: rating_network
+      MONGODB_ROOT_PASSWORD: CHANGEME
+      MONGODB_EXTRA_USERNAMES: ratings
+      MONGODB_EXTRA_PASSWORDS: CHANGEME
+      MONGODB_EXTRA_DATABASES: ratings
